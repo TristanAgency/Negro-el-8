@@ -186,7 +186,7 @@
     <h2 class="display font-bold text-4xl sm:text-5xl mb-4">Nuestra selección</h2>
     <p class="text-silver max-w-xl">Una probadita de lo que vas a encontrar en Negro el 8. Seguinos en Instagram para ver las novedades apenas llegan.</p>
   </div>
-  <div id="seleccion-carousel" class="reveal relative rounded-3xl overflow-hidden frost-edge glass aspect-[3/4] sm:aspect-[2/1] max-h-[560px]">
+  <div id="seleccion-carousel" class="reveal relative rounded-3xl overflow-hidden frost-edge glass aspect-[4/5] sm:aspect-[3/2] max-h-[620px]">
     <div id="seleccion-slides" class="absolute inset-0"></div>
 
     <button id="seleccion-prev" aria-label="Anterior" class="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full glass frost-edge flex items-center justify-center text-white btn-elastic kbd-focus">
@@ -350,17 +350,17 @@ const SELECCION_SLIDES = [
   {
     cat: 'Cervezas', name: 'Patricia', subtitle: 'Cerveza rubia',
     desc: 'Cerveza rubia de sabor suave y refrescante, ideal para cualquier ocasión.',
-    price: 150, img: 'assets/seleccion/patricia.webp'
+    price: 150, cutout: 'assets/seleccion/patricia-cutout.webp'
   },
   {
     cat: 'Licores', name: "Jack Daniel's", subtitle: '700ml',
     desc: 'Whiskey Tennessee Sour Mash de sabor suave y balanceado, ideal para cualquier ocasión.',
-    price: 1190, img: 'assets/seleccion/jack-daniels.webp'
+    price: 1190, cutout: 'assets/seleccion/jack-daniels-cutout.webp'
   },
   {
     cat: 'Licores', name: 'Jägermeister', subtitle: '1L',
     desc: 'Licor de hierbas alemán con 56 ingredientes naturales. Sabor único e inconfundible.',
-    price: 890, img: 'assets/seleccion/jagermeister.webp'
+    price: 890, cutout: 'assets/seleccion/jagermeister-cutout.webp'
   },
 ];
 
@@ -382,20 +382,22 @@ const SELECCION_SLIDES = [
     el.className = 'absolute inset-0';
     el.innerHTML = `
       <div class="absolute inset-0 bg-deep"></div>
-      <img src="${s.img}" alt="${s.name}" class="slide-photo absolute right-0 bottom-0 h-[110%] w-[62%] sm:w-[52%] object-contain object-bottom" loading="lazy" />
-      <div class="absolute inset-y-0 left-0 w-[70%] sm:w-[56%]" style="background:linear-gradient(90deg, var(--deep) 0%, var(--deep) 55%, transparent 100%)"></div>
-      <div class="slide-text absolute inset-0 flex flex-col justify-center gap-3 pl-16 pr-6 sm:pl-24 sm:pr-10 max-w-[85%] sm:max-w-[55%]">
-        <p class="slide-in mono text-xs tracking-[0.25em] text-red uppercase font-semibold">${s.cat}</p>
-        <h3 class="slide-in display font-extrabold text-3xl sm:text-5xl leading-none">${s.name}</h3>
-        <p class="slide-in text-silver text-sm sm:text-base">${s.subtitle}</p>
-        <p class="slide-in text-silver text-xs sm:text-sm max-w-xs leading-relaxed hidden sm:block">${s.desc}</p>
-        <div class="slide-in flex items-center gap-3 sm:gap-5 mt-1">
-          ${featureIcons.map(f=>`<img src="${f.icon}" alt="" title="${f.label}" class="h-5 w-5 sm:h-6 sm:w-6 object-contain opacity-90" loading="lazy" />`).join('')}
+      <img src="assets/seleccion/podium-bg.webp" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+      <img src="${s.cutout}" alt="${s.name}" class="product-cutout absolute left-1/2 -translate-x-1/2 drop-shadow-[0_18px_28px_rgba(0,0,0,.6)]" style="bottom:24%; height:56%;" loading="lazy" />
+      <div class="absolute inset-x-0 bottom-0 h-[46%]" style="background:linear-gradient(to top, var(--deep) 0%, rgba(11,11,11,.88) 45%, transparent 100%)"></div>
+      <div class="slide-text absolute inset-x-0 bottom-0 pb-5 sm:pb-7 px-6 sm:px-10 flex items-end justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <p class="slide-in mono text-xs tracking-[0.25em] text-red uppercase font-semibold">${s.cat}</p>
+          <h3 class="slide-in display font-extrabold text-2xl sm:text-4xl leading-tight">${s.name}</h3>
+          <p class="slide-in text-silver text-xs sm:text-sm mt-1 max-w-md leading-relaxed hidden sm:block">${s.desc}</p>
+          <div class="slide-in flex items-center gap-3 sm:gap-4 mt-2">
+            ${featureIcons.map(f=>`<img src="${f.icon}" alt="" title="${f.label}" class="h-5 w-5 sm:h-6 sm:w-6 object-contain opacity-90" loading="lazy" />`).join('')}
+          </div>
         </div>
-      </div>
-      <div class="slide-in absolute top-5 right-5 sm:top-7 sm:right-24 z-20 glass frost-edge rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-center">
-        <p class="mono text-[10px] sm:text-xs text-red uppercase tracking-wide">Precio</p>
-        <p class="mono font-bold text-xl sm:text-3xl leading-tight">$${s.price}</p>
+        <div class="slide-in glass frost-edge rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-center flex-shrink-0">
+          <p class="mono text-[10px] sm:text-xs text-red uppercase tracking-wide">Precio</p>
+          <p class="mono font-bold text-xl sm:text-3xl leading-tight">$${s.price}</p>
+        </div>
       </div>
     `;
     return el;
@@ -460,9 +462,9 @@ const SELECCION_SLIDES = [
     incoming.style.display = 'block';
     incoming.style.zIndex = 2;
     incoming.style.clipPath = clipPathAt(0, dir);
-    const photo = incoming.querySelector('.slide-photo');
+    const photo = incoming.querySelector('.product-cutout');
     const texts = incoming.querySelectorAll('.slide-in');
-    gsap.set(photo, { scale: 1.12, transformOrigin: '70% 50%' });
+    gsap.set(photo, { scale: 1.12, transformOrigin: '50% 100%' });
     gsap.set(texts, { opacity: 0, y: 22, filter: 'blur(6px)' });
 
     const tweenObj = { p: 0 };
