@@ -206,14 +206,16 @@
 <!-- COLD SIGNATURE DIVIDER -->
 <section class="cold-signature relative py-14 sm:py-20 overflow-hidden">
   <div class="absolute inset-0 cold-signature-bg"></div>
-  <div class="cold-signature-halo absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="cold-signature-halo absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" aria-hidden="true"></div>
   <div id="shard-field" class="absolute inset-0 overflow-hidden"></div>
   <div class="relative max-w-2xl mx-auto text-center px-6 reveal">
+    <p class="cold-signature-kicker mono text-[10px] sm:text-xs tracking-[0.35em] uppercase mb-4">Negro el Ocho · Minimarket</p>
     <h3 class="display font-extrabold uppercase leading-[0.95] tracking-tight text-4xl sm:text-6xl md:text-7xl">
       <span class="block text-white">Frío de verdad.</span>
       <span class="block text-red">Sabor de verdad.</span>
     </h3>
-    <p class="text-silver/80 mt-7 max-w-sm mx-auto text-sm sm:text-base leading-relaxed">Cada botella pasa por nuestro túnel de frío antes de llegar al mostrador. Vas a sentir la escarcha antes de abrirla.</p>
+    <div class="cold-signature-divider" aria-hidden="true"><span></span></div>
+    <p class="text-silver/80 max-w-sm mx-auto text-sm sm:text-base leading-relaxed">Cada botella pasa por nuestro túnel de frío antes de llegar al mostrador. Vas a sentir la escarcha antes de abrirla.</p>
   </div>
 </section>
 
@@ -523,34 +525,43 @@ setInterval(()=>{
 /* ============ ICE PARTICLE FIELD ============ */
 const shardField = document.getElementById('shard-field');
 const reduceMotionField = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const ICE_PARTICLE_COUNT = reduceMotionField ? 0 : 34;
+const isCompactViewport = window.innerWidth < 640;
+const ICE_PARTICLE_COUNT = reduceMotionField ? 0 : (isCompactViewport ? 16 : 32);
+const sizeScale = isCompactViewport ? 0.75 : 1;
 for(let i=0;i<ICE_PARTICLE_COUNT;i++){
   const p = document.createElement('div');
   const tier = Math.random();
-  let size, opacity, blur, dur, amp;
-  if(tier < 0.55){ // fine drifting dust — close, sharp, quick
+  let size, opacity, blur, dur, amp, glint = false;
+  if(tier < 0.48){ // fine drifting dust — close, sharp, quick
     size = 1.5 + Math.random()*3;
-    opacity = 0.25 + Math.random()*0.45;
+    opacity = 0.22 + Math.random()*0.4;
     blur = Math.random()*0.4;
-    dur = 7 + Math.random()*6;
-    amp = 14 + Math.random()*16;
-  } else if(tier < 0.85){ // mid crystals
-    size = 5 + Math.random()*9;
-    opacity = 0.12 + Math.random()*0.2;
+    dur = 8 + Math.random()*7;
+    amp = 12 + Math.random()*15;
+  } else if(tier < 0.78){ // mid crystals
+    size = 5 + Math.random()*8;
+    opacity = 0.1 + Math.random()*0.16;
     blur = 0.6 + Math.random()*1.2;
-    dur = 11 + Math.random()*7;
-    amp = 24 + Math.random()*22;
-  } else { // soft far-away glow orbs
-    size = 26 + Math.random()*40;
-    opacity = 0.04 + Math.random()*0.08;
+    dur = 13 + Math.random()*8;
+    amp = 20 + Math.random()*20;
+  } else if(tier < 0.92){ // soft far-away glow orbs
+    size = 24 + Math.random()*36;
+    opacity = 0.03 + Math.random()*0.06;
     blur = 3 + Math.random()*4;
-    dur = 16 + Math.random()*10;
-    amp = 30 + Math.random()*30;
+    dur = 18 + Math.random()*12;
+    amp = 26 + Math.random()*26;
+  } else { // rare cyan glints — tiny, sharp, faint cold sparkle
+    size = 1 + Math.random()*1.6;
+    opacity = 0.35 + Math.random()*0.35;
+    blur = 0;
+    dur = 6 + Math.random()*5;
+    amp = 10 + Math.random()*12;
+    glint = true;
   }
-  const driftX = (Math.random()*2-1) * 14;
-  p.className = 'ice-particle';
-  p.style.width = size+'px';
-  p.style.height = size+'px';
+  const driftX = (Math.random()*2-1) * 12;
+  p.className = 'ice-particle' + (glint ? ' is-glint' : '');
+  p.style.width = (size*sizeScale)+'px';
+  p.style.height = (size*sizeScale)+'px';
   p.style.left = (Math.random()*100)+'%';
   p.style.top = (Math.random()*100)+'%';
   p.style.opacity = opacity;
