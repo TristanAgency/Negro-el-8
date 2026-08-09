@@ -371,28 +371,19 @@ const SELECCION_SLIDES = [
   const nextBtn = document.getElementById('seleccion-next');
   if(!stage) return;
 
-  const featureIcons = [
-    { icon: 'assets/icons/congelados.png', label: '-2°C garantizados' },
-    { icon: 'assets/icons/hero-scooter.png', label: 'Delivery en el momento' },
-    { icon: 'assets/icons/hero-cart.png', label: 'Todo lo que necesitás' },
-  ];
-
   function buildSlide(s){
     const el = document.createElement('div');
     el.className = 'absolute inset-0';
     el.innerHTML = `
       <div class="absolute inset-0 bg-deep"></div>
       <img src="assets/seleccion/podium-bg.webp" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-      <img src="${s.cutout}" alt="${s.name}" class="product-cutout absolute left-1/2 -translate-x-1/2 drop-shadow-[0_18px_28px_rgba(0,0,0,.6)]" style="bottom:24%; height:56%;" loading="lazy" />
+      <img src="${s.cutout}" alt="${s.name}" class="product-cutout absolute -translate-x-1/2 drop-shadow-[0_18px_28px_rgba(0,0,0,.6)]" style="left:47%; bottom:24%; height:56%;" loading="lazy" />
       <div class="absolute inset-x-0 bottom-0 h-[46%]" style="background:linear-gradient(to top, var(--deep) 0%, rgba(11,11,11,.88) 45%, transparent 100%)"></div>
       <div class="slide-text absolute inset-x-0 bottom-0 pb-5 sm:pb-7 px-6 sm:px-10 flex items-end justify-between gap-4">
         <div class="flex-1 min-w-0">
           <p class="slide-in mono text-xs tracking-[0.25em] text-red uppercase font-semibold">${s.cat}</p>
           <h3 class="slide-in display font-extrabold text-2xl sm:text-4xl leading-tight">${s.name}</h3>
           <p class="slide-in text-silver text-xs sm:text-sm mt-1 max-w-md leading-relaxed hidden sm:block">${s.desc}</p>
-          <div class="slide-in flex items-center gap-3 sm:gap-4 mt-2">
-            ${featureIcons.map(f=>`<img src="${f.icon}" alt="" title="${f.label}" class="h-5 w-5 sm:h-6 sm:w-6 object-contain opacity-90" loading="lazy" />`).join('')}
-          </div>
         </div>
         <div class="slide-in glass frost-edge rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-center flex-shrink-0">
           <p class="mono text-[10px] sm:text-xs text-red uppercase tracking-wide">Precio</p>
