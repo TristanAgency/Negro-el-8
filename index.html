@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+<link rel="apple-touch-icon" href="assets/icons/favicon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +20,18 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <title>Negro el 8 — Minimarket, siempre helado</title>
 <meta name="description" content="Negro el 8. Cervezas, whiskies, comidas al paso, fiambrería, panadería, congelados, helados y golosinas. Minimarket en Montevideo, siempre a la temperatura justa." />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Negro el 8 — Minimarket, siempre helado" />
+<meta property="og:description" content="Cervezas, whiskies, comidas al paso, fiambrería, panadería, congelados, helados y golosinas. Minimarket en Montevideo, siempre a la temperatura justa." />
+<meta property="og:image" content="https://negro-el-8.pages.dev/assets/icons/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="1200" />
+<meta property="og:url" content="https://negro-el-8.pages.dev/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Negro el 8 — Minimarket, siempre helado" />
+<meta name="twitter:description" content="Cervezas, whiskies, comidas al paso, fiambrería, panadería, congelados, helados y golosinas." />
+<meta name="twitter:image" content="https://negro-el-8.pages.dev/assets/icons/og-image.png" />
 </head>
 <body class="bg-deep antialiased">
 
@@ -309,8 +322,13 @@
 const catGrid = document.getElementById('category-grid');
 CATEGORIES.forEach((c,i)=>{
   const card = document.createElement('div');
-  card.className = 'frost-card glass frost-edge rounded-3xl p-7 group relative';
+  card.className = 'frost-card glass frost-edge rounded-3xl p-7 group relative cursor-pointer';
   card.style.transitionDelay = (i*40)+'ms';
+  card.setAttribute('role', 'link');
+  card.setAttribute('tabindex', '0');
+  const goToCategory = () => { window.location.href = `productos.html#cat-${c.id}`; };
+  card.addEventListener('click', goToCategory);
+  card.addEventListener('keydown', (e) => { if(e.key==='Enter' || e.key===' '){ e.preventDefault(); goToCategory(); } });
   card.innerHTML = `
     <div class="relative z-10">
       <div class="flex items-center justify-between mb-6">
