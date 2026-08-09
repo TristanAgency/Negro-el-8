@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
 <title>Negro el 8 — Minimarket, siempre helado</title>
 <meta name="description" content="Negro el 8. Cervezas, whiskies, comidas al paso, fiambrería, panadería, congelados, helados y golosinas. Minimarket en Montevideo, siempre a la temperatura justa." />
 
@@ -545,7 +546,10 @@ gsap.utils.toArray('#category-grid > div, #carousel > div').forEach((el)=>{
     group.add(cap);
     return group;
   }
+  const dracoLoader = new THREE.DRACOLoader();
+  dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/gltf/');
   const gltfLoader = new THREE.GLTFLoader();
+  gltfLoader.setDRACOLoader(dracoLoader);
   function loadGLBItem(group, src, opts){
     opts = opts || {};
     gltfLoader.load('./' + src, (gltf)=>{
