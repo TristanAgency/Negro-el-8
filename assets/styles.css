@@ -92,6 +92,31 @@
   .shard{ position:absolute; background:linear-gradient(160deg, rgba(123,233,255,.32), rgba(255,255,255,.05));
     clip-path:polygon(50% 0%, 100% 25%, 85% 100%, 15% 100%, 0% 25%); filter:blur(.2px); opacity:.5; }
 
+  /* ============ COLD SIGNATURE SECTION ============ */
+  .cold-signature-bg{
+    background:
+      radial-gradient(ellipse 55% 45% at 16% 12%, rgba(227,30,36,.16), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 88% 88%, rgba(123,233,255,.10), transparent 62%),
+      radial-gradient(ellipse 90% 75% at 50% 50%, transparent 35%, rgba(0,0,0,.5) 100%);
+  }
+  .cold-signature-halo{
+    width:560px; height:560px; max-width:85vw; max-height:85vw; border-radius:999px; pointer-events:none;
+    background:radial-gradient(circle, rgba(123,233,255,.09), rgba(123,233,255,0) 68%);
+    filter:blur(20px);
+  }
+  .ice-particle{
+    position:absolute; border-radius:999px; pointer-events:none; will-change:transform;
+    background:radial-gradient(circle at 34% 30%, rgba(255,255,255,.95), rgba(123,233,255,.4) 46%, rgba(123,233,255,0) 76%);
+    animation:iceDrift var(--dur, 14s) ease-in-out infinite;
+  }
+  @keyframes iceDrift{
+    0%,100%{ transform:translate(0,0); }
+    50%{ transform:translate(var(--driftX, 6px), var(--amp, -20px)); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ice-particle{ animation:none; }
+  }
+
   .frozen-frame{ position:relative; }
   .frozen-frame::before{ content:''; position:absolute; top:-1px; left:0; right:0; height:70px; pointer-events:none; z-index:2;
     background:linear-gradient(#0B0B0B 10%, transparent), repeating-linear-gradient(100deg, rgba(255,255,255,.5) 0 2px, transparent 2px 22px);
