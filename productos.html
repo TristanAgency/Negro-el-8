@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<link rel="icon" type="image/png" href="logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="assets/tailwind-config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<link rel="stylesheet" href="assets/styles.css">
+<title>Catálogo completo — Negro el 8</title>
+<meta name="description" content="Catálogo completo de Negro el 8: cervezas, whiskies, aguas, golosinas y más. Encontrá tu producto y pedí por WhatsApp." />
+</head>
+<body class="bg-deep antialiased">
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- preloader -->
+<div id="preloader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Enfriando la experiencia…</div>
+</div>
+
+<div id="toast" class="glass-strong frost-edge rounded-2xl px-5 py-3 text-sm flex items-center gap-2">
+  <span>❄️</span><span id="toast-msg">Agregado al carrito</span>
+</div>
+
+<!-- NAV -->
+<header class="fixed top-0 left-0 right-0 z-50">
+  <nav class="mx-auto max-w-7xl mt-4 px-4">
+    <div class="glass frost-edge rounded-2xl px-5 py-3 flex items-center justify-between">
+      <a href="#inicio" class="flex items-center gap-2 kbd-focus">
+        <img src="logo.png" alt="Negro el 8" class="h-8 sm:h-9 w-auto" />
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-silver">
+        <a href="index.html#inicio" class="nav-link kbd-focus hover:text-white transition">Inicio</a>
+        <a href="productos.html" class="nav-link kbd-focus hover:text-white transition">Productos</a>
+        <a href="index.html#vendidos" class="nav-link kbd-focus hover:text-white transition">Más vendidos</a>
+        <a href="index.html#seleccion" class="nav-link kbd-focus hover:text-white transition">Nuestra selección</a>
+        <a href="index.html#ubicacion" class="nav-link kbd-focus hover:text-white transition">Ubicación</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="cart-btn" class="relative glass frost-edge rounded-xl w-11 h-11 flex items-center justify-center kbd-focus btn-elastic" aria-label="Abrir carrito">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21.5 8H6"></path></svg>
+          <span id="cart-count" class="hidden absolute -top-2 -right-2 bg-red text-white text-[11px] font-bold w-5 h-5 rounded-full items-center justify-center mono">0</span>
+        </button>
+        <a href="index.html#ubicacion" class="hidden sm:flex btn-elastic glow-red rounded-xl bg-gradient-to-r from-red to-redDark text-white font-semibold text-sm px-4 py-2.5 kbd-focus">Pedir ahora</a>
+        <button id="menu-btn" class="md:hidden w-10 h-10 flex items-center justify-center kbd-focus"><span class="text-xl">☰</span></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden glass frost-edge rounded-2xl mt-2 px-5 py-4 flex flex-col gap-4 text-silver text-sm">
+      <a href="index.html#inicio" class="mobile-link">Inicio</a>
+      <a href="productos.html" class="mobile-link">Productos</a>
+      <a href="index.html#vendidos" class="mobile-link">Más vendidos</a>
+      <a href="index.html#seleccion" class="mobile-link">Nuestra selección</a>
+      <a href="index.html#ubicacion" class="mobile-link">Ubicación</a>
+      <a href="index.html#ubicacion" class="text-center rounded-xl bg-gradient-to-r from-red to-redDark text-white font-semibold py-2.5">Pedir ahora</a>
+    </div>
+  </nav>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="relative pt-36 pb-16 px-6 noise-fog">
+  <div class="max-w-7xl mx-auto">
+    <p class="reveal mono text-xs tracking-[0.3em] text-silver/60 mb-4">
+      <a href="index.html" class="hover:text-ice transition">Inicio</a> / <span class="text-ice/80">Productos</span>
+    </p>
+    <h1 class="reveal display font-extrabold text-4xl sm:text-6xl leading-tight">Catálogo completo</h1>
+    <p class="reveal text-silver max-w-xl mt-4">Todo lo que tenemos en Negro el 8, siempre helado. Elegí una categoría o mirá todo el catálogo.</p>
+  </div>
+</section>
+
+<!-- QUICK NAV + FULL CATALOG -->
+<section class="relative max-w-7xl mx-auto px-6 pb-28">
+  <div id="quick-nav" class="reveal flex gap-2 overflow-x-auto pb-6 mb-10 -mx-1 px-1"></div>
+  <div id="category-sections" class="flex flex-col gap-20"></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative border-t border-white/8 py-12 mt-10">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col gap-6">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+      <img src="logo.png" alt="Negro el 8" class="h-9 w-auto" />
+      <p class="text-silver text-sm text-center">Hecho con ❄ en Montevideo — © 2026 Negro el 8</p>
+      <div class="flex gap-4 text-silver text-sm">
+        <a href="index.html#inicio" class="hover:text-red transition">Inicio</a>
+        <a href="productos.html" class="hover:text-red transition">Productos</a>
+        <a href="https://www.instagram.com/_negroel8_/" target="_blank" rel="noopener" class="hover:text-red transition">Instagram</a>
+      </div>
+    </div>
+    <p class="text-silver/50 text-xs text-center">Bebé con moderación. Venta prohibida a menores de 18 años.</p>
+    <div class="flex justify-center">
+      <img src="tristan-badge.png" alt="Impulsado por Tristan" class="h-7 w-auto opacity-90" />
+    </div>
+  </div>
+</footer>
+
+<!-- CART -->
+<div id="cart-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"></div>
+<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] z-[70] glass-strong border-l border-white/10 flex flex-col">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+    <h3 class="display font-bold text-xl flex items-center gap-2"><svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21.5 8H6"></path></svg> Tu carrito</h3>
+    <button id="cart-close" class="w-9 h-9 rounded-lg glass flex items-center justify-center kbd-focus">✕</button>
+  </div>
+  <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-4"></div>
+
+  <div id="cart-footer" class="px-6 py-5 border-t border-white/10 flex flex-col gap-4">
+    <div>
+      <p class="text-xs text-silver mb-2 uppercase tracking-wide">¿Cómo lo querés recibir?</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button type="button" id="order-type-pickup" class="order-type-btn active" data-type="pickup">🏪 Retiro en el local</button>
+        <button type="button" id="order-type-delivery" class="order-type-btn" data-type="delivery">🛵 Delivery</button>
+      </div>
+    </div>
+    <div>
+      <label for="order-phone" class="text-xs text-silver mb-1 block">Tu teléfono de contacto</label>
+      <input id="order-phone" type="tel" inputmode="tel" placeholder="09X XXX XXX" class="w-full glass rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-silver/40 outline-none kbd-focus" />
+    </div>
+    <div id="order-address-wrap" class="hidden">
+      <label for="order-address" class="text-xs text-silver mb-1 block">Dirección de entrega</label>
+      <input id="order-address" type="text" placeholder="Calle, número, apto / barrio" class="w-full glass rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-silver/40 outline-none kbd-focus" />
+    </div>
+    <div class="flex items-center justify-between text-sm text-silver">
+      <span>Subtotal</span>
+      <span id="cart-subtotal" class="mono text-lg text-white font-semibold">$0</span>
+    </div>
+    <button id="checkout-btn" class="w-full btn-elastic glow-red rounded-2xl bg-gradient-to-r from-red to-redDark text-white font-semibold py-4 kbd-focus">Finalizar pedido por WhatsApp</button>
+  </div>
+
+  <div id="cart-success" class="hidden flex-1 flex flex-col items-center justify-center px-10 text-center gap-5">
+    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-red to-redDark flex items-center justify-center glow-red">
+      <svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+    </div>
+    <h3 class="display font-bold text-2xl">¡Pedido realizado con éxito!</h3>
+    <p id="cart-success-msg" class="text-silver text-sm leading-relaxed"></p>
+    <button id="cart-success-close" class="btn-elastic glass frost-edge rounded-2xl px-6 py-3 font-semibold kbd-focus">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="assets/data.js"></script>
+<script src="assets/cart.js"></script>
+<script src="assets/nav.js"></script>
+<script>
+/* ============ QUICK NAV + FULL CATALOG BY CATEGORY ============ */
+const quickNav = document.getElementById('quick-nav');
+const categorySections = document.getElementById('category-sections');
+
+CATEGORIES.forEach(c=>{
+  // quick nav pill
+  const pill = document.createElement('a');
+  pill.href = '#cat-'+c.id;
+  pill.className = 'glass frost-edge rounded-full px-4 py-2 text-sm whitespace-nowrap flex items-center gap-1.5 hover:text-ice transition flex-shrink-0';
+  pill.innerHTML = `<img src="assets/icons/${c.id}.png" alt="" class="h-5 w-5 object-contain" loading="lazy" /> ${c.name}`;
+  quickNav.appendChild(pill);
+
+  // dedicated section
+  const productsInCat = PRODUCTS.filter(p => CAT_ID_MAP[p.cat] === c.id);
+  const section = document.createElement('div');
+  section.id = 'cat-'+c.id;
+  section.className = 'scroll-mt-28';
+  if(productsInCat.length){
+    section.innerHTML = `
+      <div class="flex items-center gap-3 mb-8">
+        <img src="assets/icons/${c.id}.png" alt="${c.name}" class="h-9 w-9 object-contain" loading="lazy" />
+        <h3 class="display font-bold text-2xl sm:text-3xl">${c.name}</h3>
+        <span class="mono text-xs text-silver">(${productsInCat.length} productos)</span>
+      </div>
+    `;
+    const grid = document.createElement('div');
+    grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5';
+    productsInCat.forEach(p => grid.appendChild(buildProductCard(p)));
+    section.appendChild(grid);
+  } else {
+    section.innerHTML = `
+      <div class="glass frost-edge rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="assets/icons/${c.id}.png" alt="${c.name}" class="h-9 w-9 object-contain" loading="lazy" />
+          <div>
+            <h3 class="display font-bold text-xl">${c.name}</h3>
+            <p class="text-silver text-sm">Estamos cargando este catálogo — consultanos disponibilidad.</p>
+          </div>
+        </div>
+        <a href="https://wa.me/59899123456" target="_blank" rel="noopener" class="btn-elastic glow-red rounded-xl bg-gradient-to-r from-red to-redDark text-white font-semibold px-5 py-3 flex items-center gap-2 kbd-focus flex-shrink-0">💬 Consultar</a>
+      </div>
+    `;
+  }
+  categorySections.appendChild(section);
+});
+
+
+/* ============ GSAP SCROLL REVEALS (page-specific cards) ============ */
+gsap.utils.toArray('#category-sections .grid > div').forEach((el)=>{
+  gsap.fromTo(el, {opacity:0, y:30}, { opacity:1, y:0, duration:.8, ease:'power3.out', scrollTrigger:{ trigger:el, start:'top 92%' } });
+});
+</script>
+
+</body>
+</html>
