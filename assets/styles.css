@@ -216,3 +216,11 @@
     0%{ background-position:-40% -40%; }
     35%,100%{ background-position:140% 140%; }
   }
+
+/* ============ SELECCIÓN CAROUSEL ============ */
+.seleccion-dot{
+  width:8px; height:8px; border-radius:999px;
+  background:rgba(255,255,255,.25); border:none; cursor:pointer;
+  transition:background .3s ease, width .3s ease;
+}
+.seleccion-dot.active{ background:var(--red); width:22px; }
