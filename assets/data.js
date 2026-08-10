@@ -1,6 +1,6 @@
 const CATEGORIES = [
   { id:'cervezas', emoji:'🍺', name:'Cervezas', desc:'Artesanales e importadas: BTEr, Stella Artois, Guinness, Corona y más.', from:90, accent:'#8BE22E' },
-  { id:'whisky', emoji:'🥃', name:'Whiskies Premium', desc:'Chivas Regal, Ballantine\'s, Johnnie Walker, Jack Daniel\'s y más.', from:990, accent:'#D4AF37' },
+  { id:'whisky', emoji:'🥃', name:'Whiskies Importados', desc:'Chivas Regal, Ballantine\'s, Johnnie Walker, Jack Daniel\'s y más.', from:990, accent:'#D4AF37' },
   { id:'vinos', emoji:'🍷', name:'Vinos & Espumantes', desc:'Para acompañar cualquier ocasión.', from:350, accent:'#E23B3B' },
   { id:'aguas', emoji:'💧', name:'Aguas & Gaseosas', desc:'Salus, Coca-Cola, Sprite, Pepsi y más, siempre heladas.', from:66, accent:'#7BE9FF' },
   { id:'comidas', emoji:'🍔', name:'Comidas al Paso', desc:'Para el hambre de última hora.', from:150, accent:'#FF8A1E' },
