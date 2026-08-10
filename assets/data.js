@@ -5,11 +5,11 @@ const CATEGORIES = [
   { id:'aguas', emoji:'💧', name:'Aguas & Gaseosas', desc:'Salus, Coca-Cola, Sprite, Pepsi y más, siempre heladas.', from:66, accent:'#7BE9FF' },
   { id:'comidas', emoji:'🍔', name:'Comidas al Paso', desc:'Para el hambre de última hora.', from:150, accent:'#FF8A1E' },
   { id:'fiambreria', emoji:'🧀', name:'Fiambrería', desc:'Fiambres y quesos cortados en el momento.', from:120, accent:'#F2C879' },
-  { id:'panaderia', emoji:'🥐', name:'Panadería', desc:'Pan y facturas frescas todos los días.', from:70, accent:'#D9A66C' },
+  { id:'panaderia', emoji:'🥐', name:'Panadería', desc:'Pan y facturas frescas todos los días.', from:70, accent:'#D9A66C', hideOnHome:true },
   { id:'congelados', emoji:'❄️', name:'Congelados', desc:'Listos para llevar a la parrilla o al horno.', from:150, accent:'#3BA7FF' },
   { id:'helados', emoji:'🍦', name:'Helados', desc:'Para el calor de Montevideo.', from:120, accent:'#B8C2CC' },
   { id:'golosinas', emoji:'🍭', name:'Golosinas', desc:'Snacks, chocolates y algo dulce.', from:39, accent:'#FF6FA5' },
-  { id:'hielo', emoji:'🧊', name:'Hielo', desc:'Bolsas de hielo para tu previa.', from:60, accent:'#3BA7FF' },
+  { id:'hielo', emoji:'🧊', name:'Hielo', desc:'Bolsas de hielo para tu previa.', from:60, accent:'#3BA7FF', hideOnHome:true },
 ];
 
 /* maps each product's human-readable "cat" text to a CATEGORIES id, so every

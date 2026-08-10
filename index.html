@@ -323,7 +323,7 @@
 <script>
 /* ============ CATEGORY CARDS (home teaser — links out to the full catalog page) ============ */
 const catGrid = document.getElementById('category-grid');
-CATEGORIES.forEach((c,i)=>{
+CATEGORIES.filter(c=>!c.hideOnHome).forEach((c,i)=>{
   const card = document.createElement('div');
   card.className = 'frost-card glass frost-edge rounded-3xl p-7 group relative cursor-pointer';
   card.style.transitionDelay = (i*40)+'ms';
