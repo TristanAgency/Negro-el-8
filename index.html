@@ -115,6 +115,11 @@
     <span>Desplazate</span>
     <div class="w-[1px] h-8 bg-gradient-to-b from-ice to-transparent"></div>
   </div>
+
+  <button id="motion-enable-btn" class="hidden absolute top-24 right-6 z-20 glass frost-edge rounded-full px-4 py-2.5 text-xs text-silver items-center gap-2 kbd-focus btn-elastic">
+    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18"></path><path d="M12 7a5 5 0 0 1 0 10"></path></svg>
+    Mové el celular
+  </button>
 </section>
 
 <!-- MARQUEE -->
@@ -818,6 +823,35 @@ gsap.utils.toArray('#category-grid > div, #carousel > div').forEach((el)=>{
     mouseX = (e.clientX/innerWidth)*2-1;
     mouseY = (e.clientY/innerHeight)*2-1;
   });
+
+  /* ============ MOBILE: TILT PARALLAX (device orientation) ============ */
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  let baseGamma = null, baseBeta = null;
+  function onDeviceTilt(e){
+    if(e.gamma === null || e.beta === null) return;
+    if(baseGamma === null){ baseGamma = e.gamma; baseBeta = e.beta; }
+    mouseX = Math.max(-1, Math.min(1, (e.gamma - baseGamma) / 28));
+    mouseY = Math.max(-1, Math.min(1, (e.beta - baseBeta) / 28));
+  }
+  if(isTouchDevice && !reducedMotion){
+    const motionBtn = document.getElementById('motion-enable-btn');
+    if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+      // iOS 13+: requires a tap to grant sensor access
+      motionBtn.classList.remove('hidden');
+      motionBtn.classList.add('flex');
+      motionBtn.addEventListener('click', ()=>{
+        DeviceOrientationEvent.requestPermission().then(state=>{
+          if(state === 'granted'){
+            window.addEventListener('deviceorientation', onDeviceTilt);
+            motionBtn.classList.add('hidden');
+          }
+        }).catch(()=>{});
+      });
+    } else if(window.DeviceOrientationEvent){
+      // Android / other browsers: no permission prompt needed
+      window.addEventListener('deviceorientation', onDeviceTilt);
+    }
+  }
 
   const heroLogoWrap = document.querySelector('.hero-logo-wrap');
 
