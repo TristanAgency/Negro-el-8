@@ -146,6 +146,12 @@ function closeCart(){
 }
 document.getElementById('cart-btn').addEventListener('click', openCart);
 document.getElementById('cart-close').addEventListener('click', closeCart);
+document.getElementById('cart-clear').addEventListener('click', ()=>{
+  if(cart.length===0) return;
+  cart = [];
+  renderCart();
+  showToast('Carrito vaciado');
+});
 document.getElementById('cart-success-close').addEventListener('click', closeCart);
 cartOverlay.addEventListener('click', closeCart);
 
