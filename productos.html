@@ -93,8 +93,17 @@
 
 <!-- QUICK NAV + FULL CATALOG -->
 <section class="relative max-w-7xl mx-auto px-6 pb-28">
+  <div class="reveal relative mb-6 max-w-md">
+    <svg viewBox="0 0 24 24" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-silver/60 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+    <input id="product-search" type="text" inputmode="search" autocomplete="off" placeholder="Buscar productos… ej. cerveza, whisky" class="w-full glass frost-edge rounded-2xl pl-11 pr-11 py-3 text-sm text-white placeholder:text-silver/40 outline-none kbd-focus" />
+    <button id="product-search-clear" aria-label="Limpiar búsqueda" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full glass flex items-center justify-center text-silver hover:text-white text-xs kbd-focus">✕</button>
+  </div>
   <div id="quick-nav" class="reveal flex gap-2 overflow-x-auto pb-6 mb-10 -mx-1 px-1"></div>
   <div id="category-sections" class="flex flex-col gap-20"></div>
+  <div id="search-no-results" class="hidden text-center text-silver py-20">
+    <p class="text-lg font-medium mb-1">No encontramos productos para "<span id="search-no-results-term" class="text-white"></span>"</p>
+    <p class="text-sm text-silver/70">Probá con otra palabra, o consultanos por WhatsApp.</p>
+  </div>
 </section>
 
 <!-- MOBILE: back-to-categories floating button -->
@@ -192,12 +201,16 @@ CATEGORIES.forEach(c=>{
       <div class="flex items-center gap-3 mb-8">
         <img src="assets/icons/${c.id}.png" alt="${c.name}" class="h-9 w-9 object-contain" loading="lazy" />
         <h3 class="display font-bold text-2xl sm:text-3xl">${c.name}</h3>
-        <span class="mono text-xs text-silver">(${productsInCat.length} productos)</span>
+        <span class="cat-count mono text-xs text-silver">(${productsInCat.length} productos)</span>
       </div>
     `;
     const grid = document.createElement('div');
     grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5';
-    productsInCat.forEach(p => grid.appendChild(buildProductCard(p)));
+    productsInCat.forEach(p => {
+      const cardEl = buildProductCard(p);
+      cardEl.dataset.search = (p.name+' '+p.cat).toLowerCase();
+      grid.appendChild(cardEl);
+    });
     section.appendChild(grid);
   } else {
     section.innerHTML = `
@@ -216,6 +229,64 @@ CATEGORIES.forEach(c=>{
   categorySections.appendChild(section);
 });
 
+/* ============ PRODUCT SEARCH ============ */
+const searchInput = document.getElementById('product-search');
+const searchClearBtn = document.getElementById('product-search-clear');
+const noResultsEl = document.getElementById('search-no-results');
+const noResultsTermEl = document.getElementById('search-no-results-term');
+const allSections = Array.from(categorySections.children);
+
+function applySearch(){
+  const query = searchInput.value.trim().toLowerCase();
+  searchClearBtn.classList.toggle('hidden', !query);
+
+  if(!query){
+    allSections.forEach(section=>{
+      section.classList.remove('hidden');
+      section.querySelectorAll('.grid > *').forEach(card => card.classList.remove('hidden'));
+      const countEl = section.querySelector('.cat-count');
+      const grid = section.querySelector('.grid');
+      if(countEl && grid) countEl.textContent = `(${grid.children.length} productos)`;
+    });
+    noResultsEl.classList.add('hidden');
+    quickNav.classList.remove('hidden');
+    return;
+  }
+
+  let anyVisible = false;
+  allSections.forEach(section=>{
+    const grid = section.querySelector('.grid');
+    if(!grid){ section.classList.add('hidden'); return; }
+    let visibleCount = 0;
+    Array.from(grid.children).forEach(card=>{
+      const match = (card.dataset.search||'').includes(query);
+      card.classList.toggle('hidden', !match);
+      if(match) visibleCount++;
+    });
+    const countEl = section.querySelector('.cat-count');
+    if(countEl) countEl.textContent = `(${visibleCount} producto${visibleCount===1?'':'s'})`;
+    section.classList.toggle('hidden', visibleCount===0);
+    if(visibleCount>0) anyVisible = true;
+  });
+
+  quickNav.classList.add('hidden');
+  noResultsEl.classList.toggle('hidden', anyVisible);
+  noResultsTermEl.textContent = searchInput.value.trim();
+}
+searchInput.addEventListener('input', ()=>{
+  applySearch();
+  // cards revealed by the filter may have missed their scroll-triggered
+  // fade-in if their section was off-screen at load time — force them
+  // visible instead of relying on a stale ScrollTrigger position.
+  categorySections.querySelectorAll('.grid > div:not(.hidden)').forEach(card=>{
+    gsap.set(card, { opacity:1, y:0 });
+  });
+});
+searchClearBtn.addEventListener('click', ()=>{
+  searchInput.value = '';
+  applySearch();
+  searchInput.focus();
+});
 
 /* ============ MOBILE: BACK-TO-CATEGORIES BUTTON ============ */
 const backToCategoriesBtn = document.getElementById('back-to-categories');
