@@ -149,6 +149,7 @@
 
   .badge-cold{ background:linear-gradient(135deg, rgba(123,233,255,.18), rgba(59,167,255,.08)); border:1px solid rgba(123,233,255,.4); color:#BFF3FF; }
   .badge-red{ background:linear-gradient(135deg, rgba(227,30,36,.22), rgba(143,18,22,.12)); border:1px solid rgba(227,30,36,.5); color:#ffd7d8; }
+  .badge-gray{ background:linear-gradient(135deg, rgba(184,194,204,.14), rgba(184,194,204,.05)); border:1px solid rgba(184,194,204,.3); color:#B8C2CC; }
 
   .nav-link{ position:relative; }
   .nav-link::after{ content:''; position:absolute; left:0; bottom:-4px; height:1px; width:0%; background:linear-gradient(90deg,#E31E24,#7BE9FF); transition:width .3s ease; }

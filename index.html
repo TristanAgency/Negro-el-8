@@ -609,8 +609,8 @@ function updateOpenStatusBadge(){
   const textEl = document.getElementById('open-status-text');
   if(!badge) return;
   const open = isStoreOpenNow();
-  badge.classList.toggle('badge-cold', open);
-  badge.classList.toggle('badge-red', !open);
+  badge.classList.toggle('badge-red', open);
+  badge.classList.toggle('badge-gray', !open);
   textEl.textContent = open ? 'Abierto ahora' : 'Cerrado';
 }
 updateOpenStatusBadge();
