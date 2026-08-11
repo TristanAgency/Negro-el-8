@@ -1,6 +1,19 @@
 /* ============ CART STATE ============ */
 let cart = [];
 
+/* ============ CART PERSISTENCE (localStorage) ============ */
+const CART_STORAGE_KEY = 'negroel8_cart';
+function saveCart(){
+  try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); } catch(e){}
+}
+function loadCart(){
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    if(raw){ const parsed = JSON.parse(raw); if(Array.isArray(parsed)) cart = parsed; }
+  } catch(e){ cart = []; }
+}
+loadCart();
+
 /* ============ ORDER LOG (Google Sheets) ============ */
 /* Pegá acá la URL que te da Google Apps Script al implementar (termina en /exec) */
 const ORDER_LOG_URL = 'https://script.google.com/macros/s/AKfycbxvAg5gqMRbx0H2d61lJ-hX2hJZlw4h5vIcM6NUdfNp0y4GdIDVq3FHNGnIIQQ-B4L6KQ/exec';
@@ -127,8 +140,10 @@ function renderCart(){
   }
   const subtotal = cart.reduce((s,i)=>s+i.qty*i.price,0);
   cartSubtotalEl.textContent = `$${subtotal}`;
+  saveCart();
 }
 window.changeQty = changeQty;
+renderCart();
 
 function openCart(){ cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); }
 function closeCart(){
