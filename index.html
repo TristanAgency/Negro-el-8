@@ -235,7 +235,9 @@
     <div class="reveal glass-strong frost-edge rounded-3xl p-8 flex flex-col gap-8">
       <div class="grid sm:grid-cols-2 gap-8">
         <div>
-          <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><img src="assets/icons/hero-clock.png" alt="" class="h-6 w-6 object-contain" loading="lazy" /> Horarios</h3>
+          <h3 class="font-semibold text-lg mb-3 flex items-center gap-2 flex-wrap"><img src="assets/icons/hero-clock.png" alt="" class="h-6 w-6 object-contain" loading="lazy" /> Horarios
+            <span id="open-status-badge" class="text-xs px-2.5 py-1 rounded-full mono inline-flex items-center gap-1.5 font-normal"><span id="open-status-dot" class="w-1.5 h-1.5 rounded-full bg-current"></span><span id="open-status-text">—</span></span>
+          </h3>
           <ul class="text-silver text-sm space-y-1.5 mono">
             <li class="flex justify-between border-b border-white/5 pb-1.5"><span>Dom – Jue</span><span>09:00 – 00:00</span></li>
             <li class="flex justify-between"><span>Vie – Sáb</span><span>09:00 – 02:00</span></li>
@@ -580,6 +582,39 @@ for(let i=0;i<ICE_PARTICLE_COUNT;i++){
   p.style.animationDelay = (Math.random()*10).toFixed(2)+'s';
   shardField.appendChild(p);
 }
+
+/* ============ OPEN NOW / CLOSED BADGE ============ */
+/* Same schedule shown above: Dom–Jue 09:00–00:00, Vie–Sáb 09:00–02:00 (cierra pasada la medianoche) */
+const STORE_HOURS = [
+  { open: 9*60, close: 24*60 }, // 0 Domingo
+  { open: 9*60, close: 24*60 }, // 1 Lunes
+  { open: 9*60, close: 24*60 }, // 2 Martes
+  { open: 9*60, close: 24*60 }, // 3 Miércoles
+  { open: 9*60, close: 24*60 }, // 4 Jueves
+  { open: 9*60, close: 26*60 }, // 5 Viernes (cierra 02:00 del sábado)
+  { open: 9*60, close: 26*60 }, // 6 Sábado (cierra 02:00 del domingo)
+];
+function isStoreOpenNow(){
+  const now = new Date();
+  const day = now.getDay();
+  const minutes = now.getHours()*60 + now.getMinutes();
+  const today = STORE_HOURS[day];
+  if(minutes >= today.open && minutes < Math.min(today.close, 24*60)) return true;
+  const yesterday = STORE_HOURS[(day+6)%7];
+  if(yesterday.close > 24*60 && minutes < (yesterday.close - 24*60)) return true;
+  return false;
+}
+function updateOpenStatusBadge(){
+  const badge = document.getElementById('open-status-badge');
+  const textEl = document.getElementById('open-status-text');
+  if(!badge) return;
+  const open = isStoreOpenNow();
+  badge.classList.toggle('badge-cold', open);
+  badge.classList.toggle('badge-red', !open);
+  textEl.textContent = open ? 'Abierto ahora' : 'Cerrado';
+}
+updateOpenStatusBadge();
+setInterval(updateOpenStatusBadge, 60000);
 
 /* ============ GSAP SCROLL REVEALS (page-specific cards) ============ */
 gsap.utils.toArray('#category-grid > div, #carousel > div').forEach((el)=>{
